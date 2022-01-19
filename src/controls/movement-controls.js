@@ -5,8 +5,8 @@
  */
 
 const COMPONENT_SUFFIX = '-controls',
-    MAX_DELTA = 0.2, // ms
-    EPS = 10e-6;
+  MAX_DELTA = 0.2, // ms
+  EPS = 10e-6;
 
 module.exports = AFRAME.registerComponent('movement-controls', {
 
@@ -17,12 +17,12 @@ module.exports = AFRAME.registerComponent('movement-controls', {
   dependencies: ['rotation'],
 
   schema: {
-    enabled:            { default: true },
-    controls:           { default: ['gamepad', 'trackpad', 'keyboard', 'touch'] },
-    speed:              { default: 0.3, min: 0 },
-    fly:                { default: false },
+    enabled: { default: true },
+    controls: { default: ['gamepad', 'trackpad', 'keyboard', 'touch', 'mousedrag'] },
+    speed: { default: 0.3, min: 0 },
+    fly: { default: false },
     constrainToNavMesh: { default: false },
-    camera:             { default: '[movement-controls] [camera]', type: 'selector' }
+    camera: { default: '[movement-controls] [camera]', type: 'selector' }
   },
 
   /*******************************************************************
@@ -31,9 +31,7 @@ module.exports = AFRAME.registerComponent('movement-controls', {
 
   init: function () {
     const el = this.el;
-    if (!this.data.camera) {
-      this.data.camera = el.querySelector('[camera]')
-    }
+
     this.velocityCtrl = null;
 
     this.velocity = new THREE.Vector3();
@@ -112,7 +110,7 @@ module.exports = AFRAME.registerComponent('movement-controls', {
       }
 
       if (data.constrainToNavMesh
-          && velocityCtrl.isNavMeshConstrained !== false) {
+        && velocityCtrl.isNavMeshConstrained !== false) {
 
         if (velocity.lengthSq() < EPS) return;
 
